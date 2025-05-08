@@ -12,11 +12,14 @@ export default function Accordion() {
     }
 
     function handleMultiSelection(getCurrentId) {
-        if(selectedItems.includes(getCurrentId)) {
-            setSelectedItems(selectedItems.filter(item => item !== getCurrentId));
+        let cpyMultiple = [...selectedItems]
+        console.log(cpyMultiple)
+        if(cpyMultiple.includes(getCurrentId)){
+            cpyMultiple = cpyMultiple.filter((item) => item !== getCurrentId);
         } else {
-            setSelectedItems([...selectedItems, getCurrentId]);
+            cpyMultiple.push(getCurrentId); 
         }
+        setSelectedItems(cpyMultiple);
     }
 
     return (
@@ -30,11 +33,10 @@ export default function Accordion() {
                             <h3>{dataItem.question}</h3>
                             <span>+</span>
                         </div>
-                        {
-                            selected === dataItem.id ? 
-                            <div className="text-white h-auto mt-[10px]">{dataItem.answer}</div>
-                            : null
-                        }
+                       {
+                        multiSelect ? selectedItems.includes(dataItem.id) && <div className="text-white mt-10">{dataItem.answer}</div> :
+                        selected === dataItem.id && <div className="text-white mt-10">{dataItem.answer}</div>
+                       }
                     </div>
                     ) : (
                     <div>No data found!</div>
